@@ -11,7 +11,17 @@ import (
 )
 
 func main() {
-	godotenv.Load()
+	// 1. Intentar cargar el archivo .env
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error: No se pudo encontrar el archivo .env")
+	}
+
+	// 2. Leer el token
+	token := os.Getenv("TELEGRAM_APITOKEN")
+	if token == "" {
+		log.Fatal("Error: La variable TELEGRAM_TOKEN está vacía en el .env")
+	}
 	bot, _ := tgbotapi.NewBotAPI(os.Getenv("TELEGRAM_APITOKEN"))
 
 	u := tgbotapi.NewUpdate(0)
