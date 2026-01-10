@@ -64,3 +64,4 @@ func CreateEvent(summary string, startDateTime string) (string, error) {
 
 	return event.HtmlLink, nil
 }
+ 
