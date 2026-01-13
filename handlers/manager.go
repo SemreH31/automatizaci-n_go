@@ -44,7 +44,7 @@ func handleMessage(bot *tgbotapi.BotAPI, msg *tgbotapi.Message, update *tgbotapi
 	case "/evento":
 		HandleCalendarEvent(bot, msg, args)
 	case "/dolar":
-		HandleDolar(bot, msg, update)
+		HandleDolar(bot, msg)
 	default:
 		bot.Send(tgbotapi.NewMessage(msg.Chat.ID, "Comando no reconocido"))
 	}
