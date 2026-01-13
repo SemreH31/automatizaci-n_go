@@ -42,15 +42,23 @@ func GetDolarMessage() (string, error) {
 }
 
 func fetchDolar(client *http.Client, url string) (*DolarData, error) {
-	resp, err := client.Get(url)
+	req, _ := http.NewRequest("GET", url, nil)
+
+	// Esto hace que tu programa parezca un navegador Chrome real
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
+	req.Header.Set("Accept", "application/json")
+
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 
-	var data DolarData
-	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-		return nil, err
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("error: %d", resp.StatusCode)
 	}
+
+	var data DolarData
+	json.NewDecoder(resp.Body).Decode(&data)
 	return &data, nil
 }
